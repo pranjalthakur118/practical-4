@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Table Example</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        padding: 20px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        max-width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background: white;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 800px;
+    }
+
+    caption {
+        caption-side: top;
+        font-size: 1.4em;
+        font-weight: bold;
+        padding: 12px;
+        background: #2c3e50;
+        color: white;
+    }
+
+    colgroup col:nth-child(1) { background-color: #f9fafb; }
+    colgroup col:nth-child(4) { background-color: #f0f8ff; }
+
+    thead {
+        background-color: #34495e;
+        color: white;
+        position: sticky;
+        top: 0;
+    }
+
+    th, td {
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    th {
+        cursor: pointer;
+        user-select: none;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tbody tr:hover {
+        background-color: #e6f2ff;
+    }
+
+    tfoot {
+        background-color: #ecf0f1;
+        font-weight: bold;
+    }
+
+    .status-active {
+        color: green;
+        font-weight: bold;
+    }
+
+    .status-inactive {
+        color: red;
+        font-weight: bold;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="table-container">
+<table aria-describedby="tableSummary">
+
+    <caption id="tableSummary">
+        Employee Performance Report - 2026
+    </caption>
+
+    <colgroup>
+        <col span="1">
+        <col span="1">
+        <col span="1">
+        <col span="1">
+        <col span="1">
+    </colgroup>
+
+    <thead>
+        <tr>
+            <th scope="col" onclick="sortTable(0)">Employee ID</th>
+            <th scope="col" onclick="sortTable(1)">Name</th>
+            <th scope="col" onclick="sortTable(2)">Department</th>
+            <th scope="col" onclick="sortTable(3)">Performance Score</th>
+            <th scope="col" onclick="sortTable(4)">Status</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <th scope="row" id="emp101">101</th>
+            <td headers="emp101">Alice Johnson</td>
+            <td headers="emp101">Engineering</td>
+            <td headers="emp101">92</td>
+            <td headers="emp101" class="status-active">Active</td>
+        </tr>
+
+        <tr>
+            <th scope="row" id="emp102">102</th>
+            <td headers="emp102">Michael Smith</td>
+            <td headers="emp102">Marketing</td>
+            <td headers="emp102">85</td>
+            <td headers="emp102" class="status-active">Active</td>
+        </tr>
+
+        <tr>
+            <th scope="row" id="emp103">103</th>
+            <td headers="emp103">Sarah Lee</td>
+            <td headers="emp103">Finance</td>
+            <td headers="emp103">74</td>
+            <td headers="emp103" class="status-inactive">Inactive</td>
+        </tr>
+
+        <tr>
+            <th scope="row" id="emp104">104</th>
+            <td headers="emp104">David Brown</td>
+            <td headers="emp104">Engineering</td>
+            <td headers="emp104">88</td>
+            <td headers="emp104" class="status-active">Active</td>
+        </tr>
+    </tbody>
+
+    <tfoot>
+        <tr>
+            <td colspan="3">Average Performance Score</td>
+            <td>84.75</td>
+            <td>—</td>
+        </tr>
+    </tfoot>
+
+</table>
+</div>
+
+<script>
+function sortTable(columnIndex) {
+    const table = document.querySelector("table tbody");
+    const rows = Array.from(table.rows);
+    const isNumeric = !isNaN(rows[0].cells[columnIndex].innerText);
+
+    rows.sort((a, b) => {
+        let valA = a.cells[columnIndex].innerText;
+        let valB = b.cells[columnIndex].innerText;
+
+        if (isNumeric) {
+            return valA - valB;
+        } else {
+            return valA.localeCompare(valB);
+        }
+    });
+
+    rows.forEach(row => table.appendChild(row));
+}
+</script>
+
+</body>
+</html>
